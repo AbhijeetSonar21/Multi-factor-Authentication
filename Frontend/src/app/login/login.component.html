@@ -1,0 +1,73 @@
+<div style="margin-top: 10%;">
+<button mat-raised-button color="primary" (click)="isLinear = !isLinear" id="toggle-linear">
+    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+  </button>
+  <mat-stepper [linear]="isLinear" #stepper>
+   
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Auth 1</ng-template>
+            <mat-form-field appearance="outline">
+                <mat-label>Username </mat-label>
+                <input type="text" placeholder="username" formControlName="userName"  matNativeControl matInput autocomplete="on">
+            </mat-form-field>
+        
+            <mat-form-field appearance="outline" style="margin-left: 2%;">
+                <mat-label>Password </mat-label>
+                <input type="password" placeholder="password" formControlName="password"  matNativeControl matInput autocomplete="on">
+            </mat-form-field>
+        <div>
+          <button mat-raised-button color="primary" matStepperNext>Submit</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="secondFormGroup" label="Auth 2">
+      <form [formGroup]="secondFormGroup">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter OTP</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="" required>
+        </mat-form-field>
+        <div>
+          <!-- <button mat-raised-button color="primary" matStepperPrevious>Back</button> -->
+          <button mat-raised-button color="primary" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Auth 3</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+
+        <!-- <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button> -->
+      </div>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Auth 4</ng-template>
+        <p>You are now done.</p>
+        <div>
+            <button mat-raised-button color="primary" matStepperNext>Next</button>
+
+            <!-- <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+            <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button> -->
+        </div>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Auth 5</ng-template>
+        <p>You are now done.</p>
+        <div>
+        <button mat-raised-button color="primary" (click)="submit()" matStepperNext>Submit</button>
+
+        <!-- <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+        <button mat-raised-button color="primary" (click)="stepper.reset()">Reset</button> -->
+        </div>
+    </mat-step>
+
+    </mat-stepper>
+
+</div>
