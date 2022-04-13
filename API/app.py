@@ -4,7 +4,8 @@ from flask_mysqldb import MySQL
 import pymysql
 from flask_cors import CORS
 from binascii import a2b_base64
-
+# import urllib.parse
+from datauri import DataURI
 
 
 import smtplib
@@ -39,12 +40,9 @@ def index():
 def auth_3():
     if request.method == "POST":
         image_data = request.json
-        # print(image_data["image_data"])
-        data = image_data["image_data"]
-        binary_data = a2b_base64(data)
-
-        fd = open('image.png', 'wb')
-        fd.write(binary_data)
+        uri = DataURI(image_data["image_data"])
+        fd = open('images/image.png', 'wb')
+        fd.write(uri.data)
         fd.close()
         return {"status": "otp sent","otp" : "otp"}
 
