@@ -9,8 +9,13 @@ import { EventEmitter, Output } from '@angular/core';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 
+import * as CryptoJS from 'crypto-js';
 // import '../../../assets/js/smtp.js';
-import '../../assets/js/smtp.js';
+// import '../../assets/js/smtp.js';
+// import * as CryptoJS from 'crypto-js';  
+// import {crypto} from 'crypto-js';
+// import 'crypto-js';
+
 declare let Email:any;
 
 @Component({
@@ -21,8 +26,6 @@ declare let Email:any;
 export class LoginComponent implements OnInit {
 
   // camera code
-          // webcamImage: WebcamImage;
-        // webcamImage: WebcamImage | undefined;
         @Output() getPicture = new EventEmitter<WebcamImage>();
         showWebcam = true;
         isCameraExist = true;
@@ -40,6 +43,7 @@ export class LoginComponent implements OnInit {
   isLinear = true;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  imageFormGroup: FormGroup;
   otp : any;
   seconds = 125;
   resend = false;
@@ -56,9 +60,20 @@ export class LoginComponent implements OnInit {
     this.secondFormGroup = this._formBuilder.group({
       otp: ['', Validators.required],
     });
+    this.imageFormGroup = this._formBuilder.group({
+      image: ['', Validators.required],
+    });
    }
 
   ngOnInit(): void {
+
+    // var text = "My Secret text\0\0";
+    // var key  = CryptoJS.enc.Hex.parse("253D3FB468A0E24677C28A624BE0F939");
+    // var iv   = CryptoJS.enc.Hex.parse("00000000000000000000000000000000");
+    // var encrypted = CryptoJS.AES.encrypt(text, key, {iv: iv, padding: CryptoJS.pad.NoPadding});
+    // console.log(encrypted.toString());
+    // var decrypted = CryptoJS.AES.decrypt(encrypted.toString(), key, {iv: iv, padding: CryptoJS.pad.NoPadding});
+    // console.log(decrypted.toString(CryptoJS.enc.Utf8));
 
     // camera code
         WebcamUtil.getAvailableVideoInputs()
@@ -163,6 +178,10 @@ export class LoginComponent implements OnInit {
 
 
 // camera code
+        auth_3(stepper: MatStepper) {
+          stepper.next();
+        }
+
         takeSnapshot(): void {
           this.trigger.next();
         }
@@ -184,20 +203,15 @@ export class LoginComponent implements OnInit {
           // console.log(webcamImage.imageAsDataUrl);
           this.getPicture.emit(webcamImage);
           this.showWebcam = false;
-          this._authService.auth_3({"image_data":webcamImage.imageAsDataUrl}).subscribe(
+          
+          this.imageFormGroup = this._formBuilder.group({
+            image: webcamImage
+          });
+          let auth_3 = {"image_data":webcamImage.imageAsDataUrl,"email":this.email}
+          this._authService.auth_3(auth_3).subscribe(
             (res:any)=>{
-              if (res.status == "failed") {
-                console.log(res.status)
-                // this.openSnackBar("Incorrect Username or Password ⚠️❌","OK");
-              }
-              if (res.status == "success"){
-                console.log(res.status)
-              }
-            },
-            (err:any)=>{
-                console.log(err)
             }
-          )
+          );
         }
 
         get triggerObservable(): Observable<void> {
@@ -208,6 +222,5 @@ export class LoginComponent implements OnInit {
           return this.nextWebcam.asObservable();
         }
 // camera code ends
-
 
 }
