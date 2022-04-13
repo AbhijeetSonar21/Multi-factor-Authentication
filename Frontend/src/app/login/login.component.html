@@ -1,38 +1,107 @@
 <div style="margin-top: 10%;">
-<button mat-raised-button color="primary" (click)="isLinear = !isLinear" id="toggle-linear">
+<!-- <button mat-raised-button color="primary" (click)="isLinear = !isLinear" id="toggle-linear">
     {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
-  </button>
+  </button> -->
   <mat-stepper [linear]="isLinear" #stepper>
    
-    <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
+    <mat-step [completed]=false [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup"  (ngSubmit)="auth_1(firstFormGroup.value, stepper)">
         <ng-template matStepLabel>Auth 1</ng-template>
+        <!-- {{seconds}} -->
             <mat-form-field appearance="outline">
                 <mat-label>Username </mat-label>
-                <input type="text" placeholder="username" formControlName="userName"  matNativeControl matInput autocomplete="on">
+                <input type="text" placeholder="username" formControlName="UserName"  matNativeControl matInput autocomplete="on">
             </mat-form-field>
         
             <mat-form-field appearance="outline" style="margin-left: 2%;">
                 <mat-label>Password </mat-label>
-                <input type="password" placeholder="password" formControlName="password"  matNativeControl matInput autocomplete="on">
+                <input type="password" placeholder="password" formControlName="Password"  matNativeControl matInput autocomplete="on">
             </mat-form-field>
         <div>
-          <button mat-raised-button color="primary" matStepperNext>Submit</button>
+          <!-- <button mat-raised-button color="primary" matStepperNext>Submit</button> -->
+          <!-- <button mat-raised-button  type="submit" [disabled]="!firstFormGroup.valid"  color="primary" >Submit</button> -->
+          <button mat-raised-button  type="submit"   color="primary" >Submit</button>
         </div>
       </form>
+
+
+            <!-- Iske andar he camera ka code -->
+
+            <div *ngIf="isCameraExist; else noCameraExist">
+              <div style="text-align:center">
+                  <div class="btn-group">
+                      <button class="button" (click)="takeSnapshot()">Take Picture</button>
+                      <!-- <button class="button" (click)="changeWebCame(true)">Toggle Camera</button>
+                      <button class="button" (click)="onOffWebCame()">Switch camera</button> -->
+                  </div> <br />
+                  <webcam [height]="500" [width]="1000" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                      *ngIf="showWebcam" [switchCamera]="nextWebcamObservable"></webcam>
+              </div>
+          
+              <div *ngIf="errors.length > 0">
+                  <h4>Error Messages:</h4>
+                  <ul *ngFor="let error of errors">
+                      <li>{{ error | json }}</li>
+                  </ul>
+              </div>
+          </div>
+          
+          <ng-template #noCameraExist>
+              Camera device not available
+          </ng-template>
+
+
+        <!-- <app-camera (getPicture)="handleImage($event)"></app-camera> -->
+        <!-- <div class="webcam-image" *ngIf="webcamImage">
+          <img [src]="webcamImage.imageAsDataUrl" />
+        </div> -->
+        <!-- idhar khatam  -->
+  
+  
+
+        
     </mat-step>
 
     <mat-step [stepControl]="secondFormGroup" label="Auth 2">
-      <form [formGroup]="secondFormGroup">
-        <mat-form-field appearance="outline">
-          <mat-label>Enter OTP</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="" required>
-        </mat-form-field>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <form [formGroup]="secondFormGroup"  (ngSubmit)="auth_2(secondFormGroup.value, stepper)">
+        <div style="display: inline;">
+          <div style="display: inline-block">
+            <mat-form-field appearance="outline">
+              <mat-label>Enter OTP</mat-label>
+              <input matInput formControlName="otp" placeholder="" required> 
+            </mat-form-field>
+          </div>
+          <div style="display: inline-block;margin : 4%; ">
+            <button style="height: 40px;" type="submit" [disabled]="!secondFormGroup.valid || auth2" mat-raised-button color="primary" >Submit</button>
+
+            <!-- <button style="height: 50px;" mat-stroked-button>{{seconds}}</button> -->
+          </div>
+        </div>
+
         <div>
+          
           <!-- <button mat-raised-button color="primary" matStepperPrevious>Back</button> -->
-          <button mat-raised-button color="primary" matStepperNext>Next</button>
+          <!-- <button style="margin : 1%" (click) = "sendotp()" mat-raised-button color="primary" >send OTP</button> -->
+          <!-- <button style="margin : 1%" type="submit" [disabled]="!secondFormGroup.valid" mat-raised-button color="primary" >Submit</button> -->
+          <!-- <button mat-raised-button color="primary" matStepperNext>Next</button> -->
         </div>
       </form>
+      <button style=" height: 40px;"[disabled]=true mat-stroked-button>{{seconds}}</button>
+      <button style="margin : 4%;height: 40px;" (click)="resend_auth_2()" [disabled]="!resend" mat-raised-button color="primary" >Resend OTP</button>
+
     </mat-step>
 
     <mat-step>

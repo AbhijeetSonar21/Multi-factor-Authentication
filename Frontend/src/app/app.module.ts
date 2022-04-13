@@ -12,8 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CountdownModule } from 'ngx-countdown';
+
+import { WebcamModule } from 'ngx-webcam';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatFormFieldModule,
     FormsModule, 
     ReactiveFormsModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule,
+    
+    HttpClientModule,
+    CountdownModule,
+    WebcamModule
   ],
   providers: [],
   bootstrap: [AppComponent]
