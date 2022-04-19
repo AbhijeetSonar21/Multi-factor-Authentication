@@ -223,4 +223,20 @@ export class LoginComponent implements OnInit {
         }
 // camera code ends
 
+// for encryption and decryption
+
+  encrypt(text:any,key:any) {
+    let iv   = CryptoJS.enc.Hex.parse("longsaltlongsaltlongsalt");
+    let encrypted = CryptoJS.AES.encrypt(text, key, {iv: iv, padding: CryptoJS.pad.NoPadding});
+    return encrypted.toString();
+  }
+
+  decrypt(text:any,key:any) {
+    let iv   = CryptoJS.enc.Hex.parse("longsaltlongsaltlongsalt");
+    let decrypted = CryptoJS.AES.decrypt(text.toString(), key, {iv: iv, padding: CryptoJS.pad.NoPadding});
+    return decrypted.toString(CryptoJS.enc.Utf8)
+  }
+
+// encryption and decryption end
+
 }

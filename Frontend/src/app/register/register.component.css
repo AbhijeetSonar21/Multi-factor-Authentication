@@ -1,0 +1,8 @@
+.register {
+    border: rgb(168, 168, 168) solid 1px;
+    padding: 2%;
+    border-radius: 1%;
+    align-items: center;
+    width: 20%;
+    margin-left: 35%;
+}

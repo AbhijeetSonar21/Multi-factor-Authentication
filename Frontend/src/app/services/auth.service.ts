@@ -11,6 +11,7 @@ export class AuthService {
   public auth$ = this.auth.asObservable();
 
   url = "http://127.0.0.1:5100/"
+  // url = "http://192.168.1.231:5100/"
   constructor(private _http:HttpClient) { }
 
   auth_1(auth:any){
@@ -23,6 +24,10 @@ export class AuthService {
 
   auth_3(auth:any){
     return this._http.post(this.url + "auth_3",auth)
+  }
+
+  new_user(user:any){
+    return this._http.post(this.url + "newdata",user)
   }
 
 }
