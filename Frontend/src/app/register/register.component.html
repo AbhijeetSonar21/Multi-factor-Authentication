@@ -1,0 +1,38 @@
+<div style="margin: 7%;">
+    <!-- <h2>New User</h2> -->
+    <div class="register">
+    <form [formGroup]="firstFormGroup" (ngSubmit)="new(firstFormGroup.value)">
+        <ng-template matStepLabel>Auth 1</ng-template>
+
+            <mat-label>Image </mat-label>
+            <input type="file" placeholder="image" class="file-upload" formControlName="image" (change)="handleFileInput($event)" #image><br/>
+  
+            <mat-form-field appearance="outline">
+                <mat-label>Name </mat-label>
+                <input type="text" placeholder="name" formControlName="name"  matNativeControl matInput autocomplete="on">
+            </mat-form-field><br/>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Username </mat-label>
+                <input type="text" placeholder="username" formControlName="UserName"  matNativeControl matInput autocomplete="on">
+            </mat-form-field><br/>
+        
+            <mat-form-field appearance="outline">
+                <mat-label>Password </mat-label>
+                <input type="password" placeholder="password" formControlName="Password"  matNativeControl matInput autocomplete="on">
+            </mat-form-field><br/>
+
+            <mat-form-field appearance="outline">
+                <mat-label>email </mat-label>
+                <input type="email" placeholder="email" formControlName="email"  matNativeControl matInput autocomplete="on">
+            </mat-form-field><br/>
+
+            <!-- <mat-form-field appearance="outline"> -->
+            <!-- </mat-form-field> -->
+
+        <div style="margin-top: 3%;"> 
+            <button mat-raised-button  type="submit" color="primary" >Submit</button>
+        </div>
+    </form>
+    </div>
+</div>

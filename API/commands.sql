@@ -16,3 +16,9 @@ insert into Users values('wdwdoi233','absonar','Abhijeet','password','_','aishwa
 
 CREATE USER 'm_auths'@'localhost' IDENTIFIED BY 'root';
 GRANT ALL ON mauth.* TO 'm_auths'@'localhost';
+
+ALTER TABLE Users
+DROP COLUMN Email;
+
+ALTER TABLE Users
+ADD COLUMN Email varchar(255);

@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+// import * as CryptoJS from 'crypto-js';
+
 
 @Component({
   selector: 'app-root',

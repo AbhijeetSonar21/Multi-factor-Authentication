@@ -4,11 +4,13 @@ from flask_mysqldb import MySQL
 import pymysql
 from flask_cors import CORS
 from binascii import a2b_base64
-
-
+# import urllib.parse
+from datauri import DataURI
+import uuid
 
 import smtplib
 import random
+from Crypto.Cipher import DES
 
 app = Flask(__name__)
 CORS(app)
@@ -39,12 +41,9 @@ def index():
 def auth_3():
     if request.method == "POST":
         image_data = request.json
-        # print(image_data["image_data"])
-        data = image_data["image_data"]
-        binary_data = a2b_base64(data)
-
-        fd = open('image.png', 'wb')
-        fd.write(binary_data)
+        uri = DataURI(image_data["image_data"])
+        fd = open('images/image.png', 'wb')
+        fd.write(uri.data)
         fd.close()
         return {"status": "otp sent","otp" : "otp"}
 
@@ -106,6 +105,40 @@ def sendotp(email,otp):
     print("OTP sent succesfully..")
     s.quit()
     return 1
+
+
+@app.route('/newdata', methods=['GET', 'POST'])
+def new():
+        if request.method == "POST":
+            user_data = request.json
+            # print(user_data)
+            sql_id = uuid.uuid1()
+            form_user_name = user_data['username']
+            form_name = user_data['name']
+            form_password = user_data['password']
+    
+            # print(user_data['image'])
+            # uri = DataURI(user_data['image'])
+            # print("\n ",uri.mimetype)
+    
+            form_image_path = "../Database/ExistingUser/Random.png"
+            form_email = user_data['email']
+            # print(form_email,form_image_path,form_name,form_password,form_user_name)
+    
+            conn = mysql.connection
+            cursor = conn.cursor()
+            query = "INSERT INTO Users values(%s,%s,%s,%s,%s,%s)"
+    
+
+            # key = b'secret'
+            # des = DES.new(key, DES.MODE_ECB)
+            # print(des.decrypt(form_email))
+            cursor.execute(query, [sql_id, form_user_name, form_name, form_password, form_image_path, form_email])
+            # cursor.execute("SELECT * from Users")
+            # data = cursor.fetchall()
+            mysql.connection.commit()
+            # print(data)
+            return {"status":"status"}
 
 if __name__ == '__main__':
     app.debug =True
